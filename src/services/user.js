@@ -56,7 +56,7 @@ const login = userLogin => {
 					isAdmin: user.isAdmin
 				},
 				serect,
-				{ expiresIn: 10 }
+				{ expiresIn: '1d' }
 			);
 			const refreshToken = jwt.sign(
 				{
@@ -64,7 +64,7 @@ const login = userLogin => {
 					isAdmin: user.isAdmin
 				},
 				process.env.REFRESH_TOKEN,
-				{ expiresIn: 10 }
+				{ expiresIn: '365d' }
 			);
 			resolve({
 				status: 'OK',
@@ -98,7 +98,7 @@ const getNewRefreshToken = token => {
 								isAdmin: user.isAdmin
 							},
 							process.env.REFRESH_TOKEN,
-							{ expiresIn: 10 }
+							{ expiresIn: '365d' }
 						);
 						resolve({
 							status: 'OK',
@@ -114,8 +114,30 @@ const getNewRefreshToken = token => {
 	});
 };
 
+const getDetailUser = id => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const user = await User.findOne({ _id: id });
+			if (user === null) {
+				resolve({
+					status: 'ERR',
+					message: 'The user is not defined'
+				});
+			}
+			resolve({
+				status: 'OK',
+				message: 'SUCESS',
+				data: user
+			});
+		} catch (error) {
+			reject(e);
+		}
+	});
+};
+
 module.exports = {
 	register,
 	login,
-	getNewRefreshToken
+	getNewRefreshToken,
+	getDetailUser
 };
