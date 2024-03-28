@@ -134,10 +134,31 @@ const getDetailUser = id => {
 		}
 	});
 };
+const updateUser = (userId, newData) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const updatedUser = await User.findByIdAndUpdate(userId, newData, { new: true });
+            if (!updatedUser) {
+                resolve({
+                    status: 'ERR',
+                    message: 'User not found'
+                });
+            }
+            resolve({
+                status: 'OK',
+                message: 'User updated successfully',
+                data: updatedUser
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+};
 
 module.exports = {
 	register,
 	login,
 	getNewRefreshToken,
-	getDetailUser
+	getDetailUser,
+	updateUser
 };

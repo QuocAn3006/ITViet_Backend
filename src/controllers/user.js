@@ -78,4 +78,16 @@ module.exports = {
 			});
 		}
 	}
+	,updateUser: async (req, res) => {
+        try {
+            const userId = req.params.id;
+            const newData = req.body;
+            const result = await UserService.updateUser(userId, newData);
+            return res.status(200).json(result);
+        } catch (e) {
+            return res.status(404).json({
+                message: e
+            });
+        }
+    }
 };
