@@ -55,5 +55,64 @@ module.exports = {
 				message: error
 			});
 		}
+	},
+
+	deleteProduct: async (req, res) => {
+		try {
+			const productId = req.params.id;
+
+			if (!productId) {
+				return res.status(200).json({
+					status: 'ERR',
+					message: 'the productId is required'
+				});
+			}
+			const response = await ProductService.deleteProduct(productId);
+			return res.status(200).json(response);
+		} catch (e) {
+			return res.status(404).json({
+				message: e
+			});
+		}
+	},
+
+	getAllType: async (req, res) => {
+		try {
+			const response = await ProductService.getAllType();
+			return res.status(200).json(response);
+		} catch (error) {
+			return res.status(404).json({
+				message: error
+			});
+		}
+	},
+
+	getAllCategory: async (req, res) => {
+		try {
+			const response = await ProductService.getAllCategory();
+			return res.status(200).json(response);
+		} catch (error) {
+			return res.status(404).json({
+				message: error
+			});
+		}
+	},
+
+	getDetailProduct: async (req, res) => {
+		try {
+			const productId = req.params.id;
+			if (!productId) {
+				return res.status(200).json({
+					status: 'ERR',
+					message: 'the userID is required'
+				});
+			}
+			const response = await ProductService.getProductDetails(productId);
+			return res.status(200).json(response);
+		} catch (error) {
+			return res.status(404).json({
+				message: error
+			});
+		}
 	}
 };
