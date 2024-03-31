@@ -2,7 +2,7 @@ const Product = require('../models/product');
 
 const createProduct = newProduct => {
 	return new Promise(async (resolve, reject) => {
-		const { name, image, brand, price } = newProduct;
+		const { name, image, brand, price, category } = newProduct;
 
 		try {
 			const checkProduct = await Product.findOne({ name: name });
@@ -16,7 +16,8 @@ const createProduct = newProduct => {
 				name,
 				image,
 				brand,
-				price
+				price,
+				category
 			});
 
 			if (newPro) {
@@ -96,6 +97,27 @@ const getProductList = (limit, page, sort, filter) => {
 	});
 };
 
+const getProductDetails = id => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const product = await Product.findOne({ _id: id });
+			if (product === null) {
+				resolve({
+					status: 'OK',
+					message: 'the product is not defined'
+				});
+			}
+			resolve({
+				status: 'OK',
+				message: 'SUCCESS',
+				data: product
+			});
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
 const updatedProduct = (id, data) => {
 	new Promise(async (resolve, reject) => {
 		try {
@@ -109,10 +131,27 @@ const updatedProduct = (id, data) => {
 			const updated = await Product.findByIdAndUpdate(id, data, {
 				new: true
 			});
+			if (updated) {
+				resolve({
+					status: 'OK',
+					message: 'SUCCESS',
+					data: updated
+				});
+			}
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
+const getAllType = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const allType = await Product.distinct('brand');
 			resolve({
 				status: 'OK',
-				message: 'SUCCESS',
-				data: updated
+				message: 'success',
+				data: allType
 			});
 		} catch (error) {
 			reject(error);
@@ -120,8 +159,50 @@ const updatedProduct = (id, data) => {
 	});
 };
 
+const getAllCategory = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const allType = await Product.distinct('category');
+			resolve({
+				status: 'OK',
+				message: 'success',
+				data: allType
+			});
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
+const deleteProduct = id => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const checkProduct = await Product.findOne({
+				_id: id
+			});
+			if (checkProduct === null) {
+				resolve({
+					status: 'OK',
+					message: 'the user is not defined'
+				});
+			}
+			await Product.findByIdAndDelete(id);
+			resolve({
+				status: 'OK',
+				message: 'Delete product success'
+			});
+		} catch (e) {
+			reject(e);
+		}
+	});
+};
+
 module.exports = {
 	getProductList,
 	createProduct,
-	updatedProduct
+	updatedProduct,
+	getAllType,
+	getProductDetails,
+	getAllCategory,
+	deleteProduct
 };
