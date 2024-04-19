@@ -1,11 +1,13 @@
 const ProductService = require('../services/product');
+const Product = require('../models/product');
+const unidecode = require('unidecode');
 
 module.exports = {
 	createProduct: async (req, res) => {
 		try {
-			const { name, image, brand, price } = req.body;
+			const { name, image, brand, price, storeType } = req.body;
 
-			if (!name || !image || !brand || !price) {
+			if (!name || !image || !brand || !price || !storeType) {
 				return res.status(200).json({
 					status: 'ERR',
 					message: 'the input is required'
@@ -34,6 +36,28 @@ module.exports = {
 				message: error
 			});
 		}
+	},
+
+	getProductStore: async (req, res) => {
+		const storeType = req.params.storeType;
+		const limit = Number(req.query.limit) || 0;
+		const sort = req.query.sort == 'desc' ? -1 : 1;
+		let query = { storeType };
+		let search = req.query.search;
+		if (search) {
+			query.name = { $regex: search, $options: 'i' };
+		}
+		Product.find(query)
+			.limit(limit)
+			.sort({ id: sort })
+			.then(products => {
+				res.json({
+					status: 'OK',
+					message: 'Success',
+					data: products
+				});
+			})
+			.catch(err => console.log(err));
 	},
 	updatedProduct: async (req, res) => {
 		try {

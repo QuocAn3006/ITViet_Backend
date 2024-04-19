@@ -14,12 +14,12 @@ const register = newUser => {
 				});
 			}
 			const hashPassword = bcrypt.hashSync(password, 10);
-			const createUser = await User.create({
+			const createdUser = await User.create({
 				name,
 				email,
 				password: hashPassword
 			});
-			if (createUser) {
+			if (createdUser) {
 				resolve({
 					status: 'OK',
 					message: 'SUCCESS',
