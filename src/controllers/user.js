@@ -3,8 +3,8 @@ const UserService = require('../services/user');
 module.exports = {
 	register: async (req, res) => {
 		try {
-			const { name, email, password } = req.body;
-			if (!name || !email || !password) {
+			const { name, email, password, storeType } = req.body;
+			if (!name || !email || !password || !storeType) {
 				return res.status(200).json({
 					status: 'ERR',
 					message: 'the input is required'
@@ -37,6 +37,20 @@ module.exports = {
 				path: '/'
 			});
 			return res.status(200).json({ ...newResponse, refreshToken });
+		} catch (error) {
+			return res.status(404).json({
+				message: error
+			});
+		}
+	},
+
+	logout: async (req, res) => {
+		try {
+			res.clearCookie('refresh_token');
+			return res.status(200).json({
+				status: 'OK',
+				message: 'Logout successfully'
+			});
 		} catch (error) {
 			return res.status(404).json({
 				message: error

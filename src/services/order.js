@@ -2,14 +2,16 @@ const Order = require('../models/order');
 
 const createOrder = newOrder => {
 	return new Promise(async (resolve, reject) => {
-		const { orderItems, itemPrice, discountPrice, totalPrice } = newOrder;
+		const { orderItems, itemPrice, discountPrice, totalPrice, userId } =
+			newOrder;
 
 		try {
 			const createOrder = await Order.create({
 				orderItems,
 				itemPrice,
 				discountPrice,
-				totalPrice
+				totalPrice,
+				userId
 			});
 			if (createOrder) {
 				resolve({
@@ -24,16 +26,17 @@ const createOrder = newOrder => {
 	});
 };
 
-const getAllOrder = search => {
+const getAllOrder = (userId, search) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			let allOrder = [];
 			if (search) {
 				allOrder = await Order.find({
+					userId: userId,
 					_id: { $regex: search, $options: 'i' }
 				});
 			} else {
-				allOrder = await Order.find();
+				allOrder = await Order.find({ userId: userId });
 			}
 			resolve({
 				status: 'OK',

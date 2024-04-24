@@ -14,8 +14,9 @@ module.exports = {
 	getAllOrder: async (req, res) => {
 		try {
 			const search = req.query.search;
+			const userId = req.params.userId;
 
-			const data = await OrderService.getAllOrder(search);
+			const data = await OrderService.getAllOrder(userId, search);
 
 			return res.status(200).json(data);
 		} catch (e) {

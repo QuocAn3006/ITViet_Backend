@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const register = newUser => {
 	return new Promise(async (resolve, reject) => {
-		const { name, email, password } = newUser;
+		const { name, email, password, storeType } = newUser;
 		try {
 			const checkUser = await User.findOne({ email: email });
 			if (checkUser !== null) {
@@ -17,7 +17,8 @@ const register = newUser => {
 			const createdUser = await User.create({
 				name,
 				email,
-				password: hashPassword
+				password: hashPassword,
+				storeType
 			});
 			if (createdUser) {
 				resolve({
