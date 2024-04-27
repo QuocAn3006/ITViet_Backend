@@ -5,9 +5,9 @@ const unidecode = require('unidecode');
 module.exports = {
 	createProduct: async (req, res) => {
 		try {
-			const { name, image, brand, price, storeType } = req.body;
+			const { name, image, brand, price, store } = req.body;
 
-			if (!name || !image || !brand || !price || !storeType) {
+			if (!name || !image || !brand || !price || !store) {
 				return res.status(200).json({
 					status: 'ERR',
 					message: 'the input is required'

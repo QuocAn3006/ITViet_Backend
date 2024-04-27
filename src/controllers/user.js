@@ -3,8 +3,8 @@ const UserService = require('../services/user');
 module.exports = {
 	register: async (req, res) => {
 		try {
-			const { name, email, password, storeType } = req.body;
-			if (!name || !email || !password || !storeType) {
+			const { name, email, password } = req.body;
+			if (!name || !email || !password) {
 				return res.status(200).json({
 					status: 'ERR',
 					message: 'the input is required'
