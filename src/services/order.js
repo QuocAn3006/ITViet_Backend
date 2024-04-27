@@ -26,18 +26,11 @@ const createOrder = newOrder => {
 	});
 };
 
-const getAllOrder = (userId, search) => {
+const getAllOrder = userId => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			let allOrder = [];
-			if (search) {
-				allOrder = await Order.find({
-					userId: userId,
-					_id: { $regex: search, $options: 'i' }
-				});
-			} else {
-				allOrder = await Order.find({ userId: userId });
-			}
+			const allOrder = await Order.find({ userId: userId });
+
 			resolve({
 				status: 'OK',
 				message: 'success',

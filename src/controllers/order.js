@@ -13,10 +13,8 @@ module.exports = {
 	},
 	getAllOrder: async (req, res) => {
 		try {
-			const search = req.query.search;
 			const userId = req.params.userId;
-
-			const data = await OrderService.getAllOrder(userId, search);
+			const data = await OrderService.getAllOrder(userId);
 
 			return res.status(200).json(data);
 		} catch (e) {
