@@ -5,9 +5,9 @@ module.exports = {
 		try {
 			const path = await getFileName(req, res);
 			const cldRes = await handleUpload(path);
-			res.send({ url: cldRes });
+			res.status(200).json({ url: cldRes });
 		} catch (error) {
-			res.status(500).send('Cannot upload image');
+			res.status(500).json('Cannot upload image');
 		}
 	}
 };
