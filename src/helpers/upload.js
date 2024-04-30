@@ -24,9 +24,7 @@ function runMiddleWare(req, res, fn) {
 }
 
 async function handleUpload(file) {
-	const res = await cloudinary.uploader.upload(file, {
-		upload_preset: 'be_ecommerce'
-	});
+	const res = await cloudinary.uploader.upload(file);
 	return res.url;
 }
 
