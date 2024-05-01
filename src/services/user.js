@@ -135,9 +135,28 @@ const getDetailUser = id => {
 	});
 };
 
+const getAllUser = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const allUser = await User.find().sort({
+				createdAt: -1,
+				updatedAt: -1
+			});
+			resolve({
+				status: 'OK',
+				message: 'success',
+				data: allUser
+			});
+		} catch (e) {
+			reject(e);
+		}
+	});
+};
+
 module.exports = {
 	register,
 	login,
 	getNewRefreshToken,
-	getDetailUser
+	getDetailUser,
+	getAllUser
 };
