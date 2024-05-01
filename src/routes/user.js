@@ -13,4 +13,6 @@ router.get(
 	userController.getDetailUser
 );
 
+router.get('/get-all-user', userController.getAllUser);
+
 module.exports = router;
