@@ -4,12 +4,7 @@ module.exports = {
 	register: async (req, res) => {
 		try {
 			const { name, email, password } = req.body;
-			if (!name || !email || !password) {
-				return res.status(200).json({
-					status: 'ERR',
-					message: 'the input is required'
-				});
-			}
+
 			const response = await UserService.register(req.body);
 			return res.status(200).json(response);
 		} catch (error) {
@@ -21,13 +16,13 @@ module.exports = {
 
 	login: async (req, res) => {
 		try {
-			// const { email, password } = req.body;
-			// if (!email || !password) {
-			// 	return res.status(200).json({
-			// 		status: 'ERR',
-			// 		message: 'the input is required'
-			// 	});
-			// }
+			const { email, password } = req.body;
+			if (!email || !password) {
+				return res.status(200).json({
+					status: 'ERR',
+					message: 'Vui lòng nhập đầy đủ các trường'
+				});
+			}
 			const response = await UserService.login(req.body);
 			const { refreshToken, ...newResponse } = response;
 			res.cookie('refresh_token', refreshToken, {

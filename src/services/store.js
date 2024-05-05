@@ -4,16 +4,7 @@ const Store = require('../models/store');
 const createStore = newStore => {
 	return new Promise(async (resolve, reject) => {
 		const { name, address, phoneStore, user } = newStore;
-
 		try {
-			const check = await Store.findOne({ name: name });
-			if (check !== null) {
-				resolve({
-					status: 'ERR',
-					message: 'the name of product is already'
-				});
-			}
-
 			const store = await Store.create({
 				name,
 				address,
@@ -79,10 +70,10 @@ const getProductStore = (id, search) => {
 	});
 };
 
-const getAllTypeProductStore = async () => {
+const getAllTypeProductStore = async storeId => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const allType = await Product.distinct('brand');
+			const allType = await Product.distinct('brand', { store: storeId });
 			resolve({
 				status: 'OK',
 				message: 'success',

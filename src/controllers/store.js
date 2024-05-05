@@ -4,8 +4,8 @@ const StoreService = require('../services/store');
 module.exports = {
 	createStore: async (req, res) => {
 		try {
-			const { name, address, phoneStore, user } = req.body;
-			if (!name || !address || !phoneStore || !user) {
+			const { name, phoneStore, user } = req.body;
+			if (!name || !phoneStore || !user) {
 				return res.status(200).json({
 					status: 'ERR',
 					message: 'the input is required'
@@ -82,7 +82,8 @@ module.exports = {
 	},
 	getAllTypeProductStore: async (req, res) => {
 		try {
-			const response = await StoreService.getAllTypeProductStore();
+			const storeId = req.params.id;
+			const response = await StoreService.getAllTypeProductStore(storeId);
 			return res.status(200).json(response);
 		} catch (error) {
 			return res.status(404).json({

@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const storeSchema = new mongoose.Schema(
 	{
 		name: { type: String },
-		name: { type: String },
 		phoneStore: { type: String },
 		user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 	},

@@ -20,9 +20,7 @@ const productSchema = new mongoose.Schema(
 			type: Number,
 			required: true
 		},
-		category: {
-			type: String
-		},
+
 		store: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Store'

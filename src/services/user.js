@@ -10,21 +10,22 @@ const register = newUser => {
 			if (checkUser !== null) {
 				resolve({
 					status: 'ERR',
-					message: 'the email is already'
+					message: 'Email này đã tồn tại'
 				});
-			}
-			const hashPassword = bcrypt.hashSync(password, 10);
-			const createdUser = await User.create({
-				name,
-				email,
-				password: hashPassword
-			});
-			if (createdUser) {
-				resolve({
-					status: 'OK',
-					message: 'SUCCESS',
-					data: createdUser
+			} else {
+				const hashPassword = bcrypt.hashSync(password, 10);
+				const createdUser = await User.create({
+					name,
+					email,
+					password: hashPassword
 				});
+				if (createdUser) {
+					resolve({
+						status: 'OK',
+						message: 'SUCCESS',
+						data: createdUser
+					});
+				}
 			}
 		} catch (error) {
 			reject(error);
@@ -39,14 +40,17 @@ const login = userLogin => {
 			const user = await User.findOne({ email: email });
 			const serect = process.env.ACCESS_TOKEN;
 			if (user === null) {
-				resolve({ status: 'ERR', message: 'User not found' });
+				resolve({
+					status: 'ERR',
+					message: 'Tài khoản không tồn tại'
+				});
 			}
 
 			const comparePass = bcrypt.compareSync(password, user.password);
 			if (!comparePass) {
 				resolve({
 					status: 'ERR',
-					message: 'Email or Password is wrong'
+					message: 'Tên đăng nhập hoặc mật khẩu không đúng'
 				});
 			}
 
@@ -130,7 +134,7 @@ const getDetailUser = id => {
 				data: user
 			});
 		} catch (error) {
-			reject(e);
+			reject(error);
 		}
 	});
 };

@@ -13,7 +13,10 @@ module.exports = {
 					message: 'the input is required'
 				});
 			}
-			const response = await ProductService.createProduct(req.body);
+			const response = await ProductService.createProduct(
+				req.body,
+				store
+			);
 			return res.status(200).json(response);
 		} catch (error) {
 			return res.status(404).json({
