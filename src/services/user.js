@@ -10,7 +10,7 @@ const register = newUser => {
 			if (checkUser !== null) {
 				resolve({
 					status: 'ERR',
-					message: 'Email này đã tồn tại'
+					message: 'Tên tài khoản này đã tồn tại'
 				});
 			} else {
 				const hashPassword = bcrypt.hashSync(password, 10);
